@@ -8,5 +8,13 @@ export const routes: Routes = [
     {
         path: 'home',
         loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
+    },
+    {
+        path: 'upload',
+        loadComponent: () => import('./upload-image/upload-image.component').then(m => m.UploadImageComponent)
+    },
+    {
+        path: 'game/:folder/:file',
+        loadComponent: () => import('./game/game.component').then(m => m.GameComponent)
     }
 ];

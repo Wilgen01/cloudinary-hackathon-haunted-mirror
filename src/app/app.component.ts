@@ -5,7 +5,6 @@ import { RouterOutlet } from '@angular/router';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { Cloudinary, CloudinaryImage, Transformation } from '@cloudinary/url-gen';
 import { auto, crop, fill, scale, thumbnail } from "@cloudinary/url-gen/actions/resize";
-import { UploadImageComponent } from './shared/components/upload-image/upload-image.component';
 import { FocusOn } from '@cloudinary/url-gen/qualifiers/focusOn';
 import { byRadius } from '@cloudinary/url-gen/actions/roundCorners';
 import { compass, focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
@@ -23,7 +22,7 @@ import { ImageInfo } from './shared/models/image-info.model';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, CloudinaryModule, UploadImageComponent],
+  imports: [CommonModule, RouterOutlet, CloudinaryModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

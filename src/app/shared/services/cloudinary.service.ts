@@ -13,4 +13,12 @@ export class CloudinaryService {
   obtenerInfoImagen(url: string) {
     return this.http.get<ImageInfo>(url);
   }
+
+  uploadImage(file: File) {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'haunted_mirror_preset');
+    data.append('cloud_name', 'cloudWilgen');
+    return this.http.post<any>('https://api.cloudinary.com/v1_1/cloudWilgen/upload', data);
+  }
 }

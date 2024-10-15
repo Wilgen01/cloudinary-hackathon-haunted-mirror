@@ -1,0 +1,12 @@
+<div class="puzzle" [style.backgroundImage]="'url('+imageUrl+')'">
+  <div *ngFor="let row of board; let rowIndex = index" class="row">
+    <div *ngFor="let tile of row; let colIndex = index" class="tile" [ngClass]="{'empty': tile === 0}"
+      [ngStyle]="getStyles(tile)" (click)="moveTile(rowIndex, colIndex)">
+      {{ tile !== 0 ? tile : '' }}
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isSolved()" class="message">
+  ¡Felicidades! Puzzle resuelto.
+</div>
