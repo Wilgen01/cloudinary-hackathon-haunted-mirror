@@ -17,24 +17,29 @@ import { Background, Position } from '@cloudinary/url-gen/qualifiers';
 import { GenerativeBackgroundReplace } from '@cloudinary/url-gen/actions/effect/GenerativeBackgroundReplace';
 import { CloudinaryService } from './shared/services/cloudinary.service';
 import { ImageInfo } from './shared/models/image-info.model';
+import { ConversationService } from './shared/services/conversation.service';
+import { welcomeDialog } from './shared/dialogs/welcome.dialog';
+import { CharacterComponent } from './character/character.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, CloudinaryModule],
+  imports: [CommonModule, RouterOutlet, CloudinaryModule, CharacterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 
 export class AppComponent implements OnInit {
-  cloudinaryService: CloudinaryService = inject(CloudinaryService);
+  private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
+  private readonly conversationService: ConversationService = inject(ConversationService);
 
   title = 'Angular Quick Start';
   img!: CloudinaryImage;
   showImage: boolean = false;
 
   ngOnInit() {
+    this.conversationService.startDialogue(welcomeDialog);
     // const cld = new Cloudinary({
     //   cloud: {
     //     cloudName: 'cloudWilgen'

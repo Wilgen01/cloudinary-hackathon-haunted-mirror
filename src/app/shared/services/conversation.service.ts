@@ -7,7 +7,7 @@ import { Dialogue } from '../models/dialogue.model';
 export class ConversationService {
   dialogues: WritableSignal<Dialogue[]> = signal([]);
   currentDialogueIndex: WritableSignal<number> = signal(-1);
-  isCharacterVisible: WritableSignal<boolean> = signal(false);
+  isDialogOpen: WritableSignal<boolean> = signal(false);
   currentDialogueText: WritableSignal<string> = signal('');
   private readonly typingSpeed: number = 40;
   private readonly typingSound: HTMLAudioElement;
@@ -20,7 +20,7 @@ export class ConversationService {
   startDialogue(dialogues: Dialogue[]) {
     this.dialogues.set(dialogues);
     this.currentDialogueIndex.set(0);
-    this.isCharacterVisible.set(true);
+    this.isDialogOpen.set(true);
     this.typeDialogue();
   }
 
@@ -38,7 +38,7 @@ export class ConversationService {
         currentText += fullText[charIndex];
         this.currentDialogueText.set(currentText);
 
-        if(charIndex % 2 == 0 && fullText[charIndex] !== ' '){
+        if (charIndex % 2 == 0 && fullText[charIndex] !== ' ') {
           this.playTypingSound()
         };
 
@@ -72,7 +72,7 @@ export class ConversationService {
 
   endDialogue() {
     clearInterval(this.typingInterval);
-    this.isCharacterVisible.set(false);
+    this.isDialogOpen.set(false);
     this.currentDialogueIndex.set(-1);
   }
 

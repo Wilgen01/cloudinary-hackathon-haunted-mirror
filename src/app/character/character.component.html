@@ -1,11 +1,11 @@
-<div *ngIf="isVisible()"
-    class="bg-gray-700 opacity-90 h-screen w-screen absolute top-0 left-0 flex justify-center items-center">
+<div *ngIf="isDialogOpen()"
+    class="bg-gray-700/50 h-screen w-screen absolute top-0 left-0 flex justify-center items-center">
 
     <div class="max-w-3xl min-w-[48rem]">
         <section class="max-h-max bg-white shadow-md rounded-lg">
             <div class="flex justify-between items-center px-4">
                 <div class="w-3/4">
-                    <p class="text-black text-xl">{{currentDialogueText()}}</p>
+                    <p class="text-black text-xl" [innerHTML]="currentDialogueText() | sanitize"></p>
                 </div>
                 <figure class="w-1/4 h-48">
                     <img *ngIf="currentDialogue().isCharacterVisible" class="h-48" src="images/demonio.png"
