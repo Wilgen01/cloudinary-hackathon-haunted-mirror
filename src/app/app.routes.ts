@@ -20,5 +20,10 @@ export const routes: Routes = [
     {
         path: 'tyc',
         loadComponent: () => import('./terminos-y-condiciones/terminos-y-condiciones.component').then(m => m.TerminosYCondicionesComponent)
+    },
+    {
+        path: '**',
+        redirectTo: '/home',
+        pathMatch: 'full'
     }
 ];
