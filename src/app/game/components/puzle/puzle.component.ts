@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { grayscale } from '@cloudinary/url-gen/actions/effect';
+import { auto } from '@cloudinary/url-gen/actions/resize';
+import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen/index';
+import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
+import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
 
 const posiciones: Record<number, { x: number, y: number }> = {
   1: { x: 0 * 160, y: 0 * 160 },
@@ -20,12 +26,52 @@ const posiciones: Record<number, { x: number, y: number }> = {
   styleUrl: './puzle.component.scss'
 })
 export class PuzleComponent implements OnInit {
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
+
   board: number[][] = [];
   emptyPosition: { row: number, col: number } = { row: 0, col: 0 };
-  imageUrl: string = 'https://res.cloudinary.com/cloudwilgen/image/upload/c_auto,g_face,h_480,w_480/haunted_mirror/mzxkoneikabz8v0fut5o.jpg';
+  imageId: string = '';
+  img!: CloudinaryImage;
+  cld!: Cloudinary;
+  imageUrl: string;
+  backgroundImage: string;
 
   ngOnInit() {
     this.initBoard();
+    this.obtenerImageId();
+
+  }
+
+  obtenerImageId() {
+    this.inicializarCloudinary();
+
+    this.activatedRoute.params.subscribe((params) => {
+      this.imageId = `${params['folder'] + '/' + params['file']}`;
+      this.img = this.cld.image(this.imageId);
+      this.img.resize(
+        auto()
+          .width(480)
+          .height(480)
+          .gravity(focusOn(face()))
+      );
+      this.imageUrl = this.img.toURL();
+      this.obtenerBackgroundImage();
+    });
+  }
+
+  obtenerBackgroundImage() {
+    const tempImg = this.cld.image(this.imageId).resize(auto().width(480).height(480).gravity(focusOn(face())));
+    tempImg.effect(grayscale());
+    this.backgroundImage = tempImg.toURL();
+  }
+
+  inicializarCloudinary() {
+    this.cld = new Cloudinary({
+      cloud: {
+        cloudName: 'cloudWilgen'
+      }
+    });
   }
 
   // Inicializa el tablero con una matriz 3x3 y coloca los números aleatorios

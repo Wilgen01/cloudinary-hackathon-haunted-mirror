@@ -4,7 +4,7 @@
 
 
 * {
-    font-family: 'Roboto', system-ui, sans-serif, ;
+    font-family: 'Roboto', system-ui, sans-serif;
     font-size: 1rem;
     line-height: 1.5rem;
     box-sizing: border-box;
@@ -14,15 +14,26 @@
 
 @font-face {
     font-family: 'danger';
-    src: url('/fonts/danger.otf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'who_asks_satan';
-    src: url('/fonts/who_asks_satan.ttf') format('truetype');
+    src: url('/fonts/danger.woff2') format('woff2'),
+         url('/fonts/danger.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-  }
-  
+    font-display: swap;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background-image: url("/images/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+#particles-js {
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}

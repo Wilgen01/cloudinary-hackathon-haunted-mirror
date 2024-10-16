@@ -1,4 +1,4 @@
-<div class="puzzle" [style.backgroundImage]="'url('+imageUrl+')'">
+<div class="puzzle" [style.backgroundImage]="'url('+backgroundImage+')'">
   <div *ngFor="let row of board; let rowIndex = index" class="row">
     <div *ngFor="let tile of row; let colIndex = index" class="tile" [ngClass]="{'empty': tile === 0}"
       [ngStyle]="getStyles(tile)" (click)="moveTile(rowIndex, colIndex)">

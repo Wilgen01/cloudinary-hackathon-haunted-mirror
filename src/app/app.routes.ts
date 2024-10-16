@@ -16,5 +16,9 @@ export const routes: Routes = [
     {
         path: 'game/:folder/:file',
         loadComponent: () => import('./game/game.component').then(m => m.GameComponent)
+    },
+    {
+        path: 'tyc',
+        loadComponent: () => import('./terminos-y-condiciones/terminos-y-condiciones.component').then(m => m.TerminosYCondicionesComponent)
     }
 ];
