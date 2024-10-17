@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { grayscale } from '@cloudinary/url-gen/actions/effect';
-import { auto } from '@cloudinary/url-gen/actions/resize';
+import { Component, Input, OnInit } from '@angular/core';
 import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen/index';
-import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
-import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
+import { cloudinaryConf } from '../../../shared/helpers/cloudinary-conf';
 
 const posiciones: Record<number, { x: number, y: number }> = {
   1: { x: 0 * 160, y: 0 * 160 },
@@ -26,52 +22,20 @@ const posiciones: Record<number, { x: number, y: number }> = {
   styleUrl: './puzle.component.scss'
 })
 export class PuzleComponent implements OnInit {
-  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  @Input({ required: true }) baseImageUrl: string = '';
+  @Input({ required: true }) imageUrl: string = '';
+  @Input({ required: true }) imageBgUrl: string = '';
 
 
   board: number[][] = [];
   emptyPosition: { row: number, col: number } = { row: 0, col: 0 };
   imageId: string = '';
   img!: CloudinaryImage;
-  cld!: Cloudinary;
-  imageUrl: string;
+  cld: Cloudinary = cloudinaryConf;
   backgroundImage: string;
 
   ngOnInit() {
     this.initBoard();
-    this.obtenerImageId();
-
-  }
-
-  obtenerImageId() {
-    this.inicializarCloudinary();
-
-    this.activatedRoute.params.subscribe((params) => {
-      this.imageId = `${params['folder'] + '/' + params['file']}`;
-      this.img = this.cld.image(this.imageId);
-      this.img.resize(
-        auto()
-          .width(480)
-          .height(480)
-          .gravity(focusOn(face()))
-      );
-      this.imageUrl = this.img.toURL();
-      this.obtenerBackgroundImage();
-    });
-  }
-
-  obtenerBackgroundImage() {
-    const tempImg = this.cld.image(this.imageId).resize(auto().width(480).height(480).gravity(focusOn(face())));
-    tempImg.effect(grayscale());
-    this.backgroundImage = tempImg.toURL();
-  }
-
-  inicializarCloudinary() {
-    this.cld = new Cloudinary({
-      cloud: {
-        cloudName: 'cloudWilgen'
-      }
-    });
   }
 
   // Inicializa el tablero con una matriz 3x3 y coloca los números aleatorios
@@ -125,6 +89,7 @@ export class PuzleComponent implements OnInit {
 
       // Actualizar la nueva posición del espacio vacío
       this.emptyPosition = { row: row, col: col };
+      this.isSolved();
     }
   }
 
@@ -132,6 +97,7 @@ export class PuzleComponent implements OnInit {
   isSolved(): boolean {
     const solution = [1, 2, 3, 4, 5, 6, 7, 8, 0];
     let current = this.board.flat(); // Convertir la matriz en un solo arreglo
+    if(JSON.stringify(current) === JSON.stringify(solution)) alert('resuelto')
     return JSON.stringify(current) === JSON.stringify(solution);
   }
 
@@ -143,7 +109,7 @@ export class PuzleComponent implements OnInit {
       height: 160 + 'px',
       backgroundImage: 'url(' + this.imageUrl + ')',
       backgroundPosition: (-posiciones[tile].x) + 'px ' + (-posiciones[tile].y) + 'px',
-      backgroundSize: 480
+      backgroundSize: '480px 480px',
     };
   }
 

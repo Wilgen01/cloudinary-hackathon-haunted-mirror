@@ -49,6 +49,7 @@ export class UploadImageComponent implements OnInit {
           this.onImageInvalid();
           return;
         }
+        localStorage.setItem(this.imageId, JSON.stringify(imgInfo));
         this.router.navigate([`/game/${this.imageId}`]);
       }
     })

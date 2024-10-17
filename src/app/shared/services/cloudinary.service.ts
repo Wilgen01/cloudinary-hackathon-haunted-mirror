@@ -22,4 +22,10 @@ export class CloudinaryService {
     data.append('cloud_name', 'cloudWilgen');
     return this.http.post<ImageUploadResult>('https://api.cloudinary.com/v1_1/cloudWilgen/upload', data);
   }
+
+  warmImage(url: string) {
+    return this.http.get(url, { responseType: 'blob' });
+  }
+
 }
+
