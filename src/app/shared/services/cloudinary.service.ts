@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ImageInfo } from '../models/image-info.model';
+import { ImageUploadResult } from '../models/image-upload-result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,6 @@ export class CloudinaryService {
     data.append('file', file);
     data.append('upload_preset', 'haunted_mirror_preset');
     data.append('cloud_name', 'cloudWilgen');
-    return this.http.post<any>('https://api.cloudinary.com/v1_1/cloudWilgen/upload', data);
+    return this.http.post<ImageUploadResult>('https://api.cloudinary.com/v1_1/cloudWilgen/upload', data);
   }
 }

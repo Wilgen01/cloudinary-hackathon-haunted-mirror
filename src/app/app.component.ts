@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
   showImage: boolean = false;
 
   ngOnInit() {
-    this.conversationService.startDialogue(welcomeDialog);
     // const cld = new Cloudinary({
     //   cloud: {
     //     cloudName: 'cloudWilgen'
