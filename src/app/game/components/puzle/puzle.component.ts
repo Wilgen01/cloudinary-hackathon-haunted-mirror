@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen/index';
-import { cloudinaryConf } from '../../../shared/helpers/cloudinary-conf';
 
 const posiciones: Record<number, { x: number, y: number }> = {
   1: { x: 0 * 160, y: 0 * 160 },
@@ -29,10 +27,6 @@ export class PuzleComponent implements OnInit {
 
   board: number[][] = [];
   emptyPosition: { row: number, col: number } = { row: 0, col: 0 };
-  imageId: string = '';
-  img!: CloudinaryImage;
-  cld: Cloudinary = cloudinaryConf;
-  backgroundImage: string;
 
   ngOnInit() {
     this.initBoard();
@@ -40,15 +34,20 @@ export class PuzleComponent implements OnInit {
 
   // Inicializa el tablero con una matriz 3x3 y coloca los números aleatorios
   initBoard() {
-    let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 0]; // El 0 representa el espacio vacío
-    this.shuffleArray(numbers); // Barajar los números
+    // El 0 representa el espacio vacío
+    let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
-    // Asignar los números al tablero 3x3
-    this.board = [
-      [numbers[0], numbers[1], numbers[2]],
-      [numbers[3], numbers[4], numbers[5]],
-      [numbers[6], numbers[7], numbers[8]]
-    ];
+    // Barajar los números y asegurarse de que el tablero sea resoluble
+    do {
+      console.log('mezclado');
+      
+      this.shuffleArray(numbers);
+      this.board = [
+        [numbers[0], numbers[1], numbers[2]],
+        [numbers[3], numbers[4], numbers[5]],
+        [numbers[6], numbers[7], numbers[8]]
+      ];
+    } while (!this.isSolvable()); // Repetir hasta que sea resoluble
 
     // Encontrar la posición del espacio vacío (0)
     this.board.forEach((row, rowIndex) => {
@@ -60,13 +59,7 @@ export class PuzleComponent implements OnInit {
     });
   }
 
-  // Barajar un arreglo de números
   shuffleArray(array: number[]) {
-    if (!this.isSolvable()) {
-      console.log('No se puede resolver el puzzle, se ha generado un nuevo tablero aleatorio');
-      this.shuffleArray(array);
-      return
-    }
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -97,7 +90,6 @@ export class PuzleComponent implements OnInit {
   isSolved(): boolean {
     const solution = [1, 2, 3, 4, 5, 6, 7, 8, 0];
     let current = this.board.flat(); // Convertir la matriz en un solo arreglo
-    if(JSON.stringify(current) === JSON.stringify(solution)) alert('resuelto')
     return JSON.stringify(current) === JSON.stringify(solution);
   }
 
@@ -115,13 +107,13 @@ export class PuzleComponent implements OnInit {
 
   // Función para verificar si el puzzle es resoluble
   isSolvable(): boolean {
-    const flatBoard = this.board.flat().filter(num => num !== 0); // Convertir el tablero en una lista, excluyendo el 0
+    const flatBoard = this.board.flat(); // Convertimos el tablero a una lista
     let inversions = 0;
 
-    // Contar el número de inversiones
+    // Contar el número de inversiones (excluyendo el espacio vacío)
     for (let i = 0; i < flatBoard.length - 1; i++) {
       for (let j = i + 1; j < flatBoard.length; j++) {
-        if (flatBoard[i] > flatBoard[j]) {
+        if (flatBoard[i] !== 0 && flatBoard[j] !== 0 && flatBoard[i] > flatBoard[j]) {
           inversions++;
         }
       }
