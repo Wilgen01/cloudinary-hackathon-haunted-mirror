@@ -15,7 +15,7 @@
 @font-face {
     font-family: 'danger';
     src: url('/fonts/danger.woff2') format('woff2'),
-         url('/fonts/danger.woff') format('woff');
+        url('/fonts/danger.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -36,4 +36,10 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50% 50%;
+}
+
+.creepster-regular {
+    font-family: "Creepster", system-ui;
+    font-weight: 400;
+    font-style: normal;
 }
