@@ -1,5 +1,6 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Dialogue } from '../models/dialogue.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class ConversationService {
   private readonly typingSpeed: number = 40;
   private readonly typingSound: HTMLAudioElement;
   private typingInterval: any;
+  private dialogEnd: Subject<void> = new Subject();
+  dialogEnd$ = this.dialogEnd.asObservable();
 
   constructor() {
     this.typingSound = new Audio('/sounds/typing-sound-3.wav');
@@ -74,6 +77,7 @@ export class ConversationService {
     clearInterval(this.typingInterval);
     this.isDialogOpen.set(false);
     this.currentDialogueIndex.set(-1);
+    this.dialogEnd.next();
   }
 
   getCurrentDialogueText(): string {

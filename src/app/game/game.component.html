@@ -1,3 +1,16 @@
+<h1 class="text-center m-8 text-5xl font-[danger] text-primary-500">Haunted Mirror</h1>
 <main class="max-w-lg mx-auto">
-    <app-puzle *ngIf="showPuzzle" [baseImageUrl]="imgBase.toURL()" [imageUrl]="img.toURL()" [imageBgUrl]="backgroundImg.toURL()"></app-puzle>
+    @if (showTimer) {
+    <app-timer [time]="time" (timeEnd)="onTimerEnd()"></app-timer>
+    }
+    @else {
+    <span class="text-center m-8 text-5xl text-primary-500 creepster-regular block mx-auto">00:00:00</span>
+    }
+    <!-- <app-puzle *ngIf="showPuzzle" [baseImageUrl]="imgBase.toURL()" [imageUrl]="img.toURL()"
+        [imageBgUrl]="backgroundImg.toURL()"></app-puzle> -->
+    <app-puzle *ngIf="true"
+        baseImageUrl="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg"
+        imageUrl="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg"
+        imageBgUrl="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg"
+        (puzzleCompleted)="onPuzzleCompleted()"></app-puzle>
 </main>

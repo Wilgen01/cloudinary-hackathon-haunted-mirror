@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 const posiciones: Record<number, { x: number, y: number }> = {
   1: { x: 0 * 160, y: 0 * 160 },
@@ -23,10 +23,12 @@ export class PuzleComponent implements OnInit {
   @Input({ required: true }) baseImageUrl: string = '';
   @Input({ required: true }) imageUrl: string = '';
   @Input({ required: true }) imageBgUrl: string = '';
+  @Output() readonly puzzleCompleted: EventEmitter<void> = new EventEmitter();
 
 
   board: number[][] = [];
   emptyPosition: { row: number, col: number } = { row: 0, col: 0 };
+  isSolved: boolean = false;
 
   ngOnInit() {
     this.initBoard();
@@ -35,13 +37,13 @@ export class PuzleComponent implements OnInit {
   // Inicializa el tablero con una matriz 3x3 y coloca los números aleatorios
   initBoard() {
     // El 0 representa el espacio vacío
-    let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+    let numbers = [1, 2, 3, 4, 5, 6, 7, 0, 8];
 
     // Barajar los números y asegurarse de que el tablero sea resoluble
     do {
       console.log('mezclado');
-      
-      this.shuffleArray(numbers);
+
+      // this.shuffleArray(numbers);
       this.board = [
         [numbers[0], numbers[1], numbers[2]],
         [numbers[3], numbers[4], numbers[5]],
@@ -75,6 +77,7 @@ export class PuzleComponent implements OnInit {
 
   // Mover una ficha si es un movimiento válido
   moveTile(row: number, col: number) {
+    if (this.isSolved) return;
     if (this.isMoveValid(row, col)) {
       // Intercambiar la ficha con el espacio vacío
       this.board[this.emptyPosition.row][this.emptyPosition.col] = this.board[row][col];
@@ -82,15 +85,17 @@ export class PuzleComponent implements OnInit {
 
       // Actualizar la nueva posición del espacio vacío
       this.emptyPosition = { row: row, col: col };
-      this.isSolved();
+      this.checkSolved();
     }
   }
 
   // Verificar si el puzzle está resuelto
-  isSolved(): boolean {
+  checkSolved(): boolean {
     const solution = [1, 2, 3, 4, 5, 6, 7, 8, 0];
     let current = this.board.flat(); // Convertir la matriz en un solo arreglo
-    return JSON.stringify(current) === JSON.stringify(solution);
+    this.isSolved = JSON.stringify(current) === JSON.stringify(solution);
+    if (this.isSolved) this.puzzleCompleted.emit();
+    return this.isSolved;
   }
 
   getStyles(tile: number) {

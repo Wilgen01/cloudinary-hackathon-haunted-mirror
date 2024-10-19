@@ -15,7 +15,16 @@ export const routes: Routes = [
     },
     {
         path: 'game/:folder/:file',
-        loadComponent: () => import('./game/game.component').then(m => m.GameComponent)
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('./game/game.component').then(m => m.GameComponent)
+            },
+            {
+                path: 'result',
+                loadComponent: () => import('./game/components/result/result.component').then(m => m.ResultComponent)
+            }
+        ]
     },
     {
         path: 'tyc',
