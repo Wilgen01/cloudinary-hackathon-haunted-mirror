@@ -22,7 +22,8 @@ enum STATE {
   LOSE = 'LOSE',
   FIRST_STEP = 'FIRST_STEP',
   SECOND_STEP = 'SECOND_STEP',
-  THIRD_STEP = 'THIRD_STEP'
+  THIRD_STEP = 'THIRD_STEP',
+  FOURTH_STEP = 'FOURTH_STEP'
 }
 
 @Component({
@@ -45,7 +46,7 @@ export class GameComponent implements OnInit {
   imageId: string = 'haunted_mirror/ufs6rea5v2kqo28eckio';
   showPuzzle: boolean = false;
   showTimer: boolean = false;
-  time: number = 15000;
+  time: number = 6660;
   gameState = STATE.FIRST_STEP;
   puzleCompleted: boolean = false;
 
@@ -56,31 +57,47 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setGameState();
-    // this.obtenerImageId();
-    // this.generarImagenes();
-    // this.warmImages();
+    // this.setGameState();
+    this.obtenerImageId();
+    this.generarImagenes();
+    this.warmImages();
   }
 
   setGameState() {
-    const state = (localStorage.getItem('gameState') ?? STATE.FIRST_STEP) as keyof typeof STATE;
-    this.gameState = STATE[state];
-    if (this.gameState === STATE.FIRST_STEP) {
-      this.gameState = STATE.SECOND_STEP;
-      localStorage.setItem('gameState', this.gameState);
-      this.iniciarConversacion(gameDialog1);
-    } else {
-      this.showTimer = true;
+    const state = (localStorage.getItem('gameState')) as keyof typeof STATE;
+    this.gameState = state ? STATE[state] : STATE.FIRST_STEP;
+
+    switch (this.gameState) {
+      case STATE.FIRST_STEP:
+        this.iniciarConversacion(gameDialog1)
+        break;
+      case STATE.SECOND_STEP:
+        this.showTimer = true;
+        break;
+      case STATE.THIRD_STEP:
+        this.iniciarConversacion(gameDialog2)
+        break;
+      case STATE.FOURTH_STEP:
+        this.time = 60000;
+        this.showTimer = true;
+        break;
+      default:
+        this.iniciarConversacion(gameDialog1)
+        this.time = 6660;
+        this.gameState = STATE.FIRST_STEP;
+        break;
     }
   }
 
   onDialogEnd() {
     switch (this.gameState) {
       case STATE.FIRST_STEP:
+        this.gameState = STATE.SECOND_STEP;
+        localStorage.setItem('gameState', this.gameState);
         this.showTimer = true;
         break;
-      case STATE.SECOND_STEP:
-        this.gameState = STATE.THIRD_STEP;
+      case STATE.THIRD_STEP:
+        this.gameState = STATE.FOURTH_STEP;
         localStorage.setItem('gameState', this.gameState);
         this.time = 60000;
         this.showTimer = true;
@@ -129,6 +146,7 @@ export class GameComponent implements OnInit {
     ).subscribe({
       next: (res => {
         this.showPuzzle = true
+        this.setGameState();
         console.log('next', res);
       }),
       error: (err => {
@@ -140,14 +158,14 @@ export class GameComponent implements OnInit {
   onTimerEnd() {
     this.showTimer = false;
     switch (this.gameState) {
-      case STATE.FIRST_STEP:
-        this.iniciarConversacion(gameDialog1);
-        break;
       case STATE.SECOND_STEP:
+        this.gameState = STATE.THIRD_STEP;
+        localStorage.setItem('gameState', this.gameState);
         this.iniciarConversacion(gameDialog2);
         break;
-      case STATE.THIRD_STEP:
-        alert('lose')
+      case STATE.FOURTH_STEP:
+        this.gameState = STATE.LOSE;
+        localStorage.setItem('gameState', this.gameState);
         this.router.navigate([`/game/${this.imageId}/result`]);
         break;
     }
@@ -158,7 +176,6 @@ export class GameComponent implements OnInit {
     this.puzleCompleted = true;
     this.gameState = STATE.WIN;
     localStorage.setItem('gameState', this.gameState);
-    alert('win')
     this.router.navigate([`/game/${this.imageId}/result`]);
   }
 

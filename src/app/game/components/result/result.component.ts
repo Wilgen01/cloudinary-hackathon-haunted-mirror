@@ -13,28 +13,43 @@ import { image } from '@cloudinary/url-gen/qualifiers/source';
 import { Position } from '@cloudinary/url-gen/qualifiers';
 import { CloudinaryService } from '../../../shared/services/cloudinary.service';
 import { FormsModule } from '@angular/forms';
+import { ConversationService } from '../../../shared/services/conversation.service';
+import { Dialogue } from '../../../shared/models/dialogue.model';
+import { defeatDialog, victoryDialog } from '../../../shared/dialogs/result.dialog';
+import { CommonModule } from '@angular/common';
+
+type EstadoJuego = 'WIN' | 'LOSE';
 
 @Component({
   selector: 'app-result',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './result.component.html',
   styleUrl: './result.component.scss'
 })
 export class ResultComponent implements OnInit {
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
+  private readonly conversationService: ConversationService = inject(ConversationService);
 
   cld: Cloudinary = cloudinaryConf;
   img: CloudinaryImage;
   imgBase: CloudinaryImage;
   imageId: string = 'haunted_mirror/ufs6rea5v2kqo28eckio';
   tieneMarco: boolean = true;
+  estadoJuego: EstadoJuego = (localStorage.getItem('gameState')as EstadoJuego) ?? 'LOSE';
+  usuario: string = localStorage.getItem('name') ?? 'Midudev';
 
   ngOnInit(): void {
+    this.iniciarConversacion();
     this.obtenerImageId();
     this.imgBase = this.generarImagenBase();
     this.img = this.generarImagenMarco(); 
+  }
+
+  iniciarConversacion() {
+    const dialog: Dialogue[] = this.estadoJuego === 'WIN' ? victoryDialog : defeatDialog;
+    this.conversationService.startDialogue(dialog);
   }
 
   obtenerImageId() {

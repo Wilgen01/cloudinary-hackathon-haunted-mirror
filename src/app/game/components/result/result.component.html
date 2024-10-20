@@ -1,12 +1,29 @@
 <h1 class="text-center m-8 text-5xl font-[danger] text-primary-500">Haunted Mirror</h1>
 <main class="max-w-lg mx-auto py-4">
 
+    @if (estadoJuego == 'WIN') {
     <section class="max-w-96 m-auto">
-        <h4 class="text-xl font-bold text-center text-balance">¡ Wilgen ha derrotado a DEVCEBÚ en 1 Minuto 30
-            segundos !</h4>
-        <p class="mt-4 mx-auto text-center text-balance">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Deleniti sed excepturi nihil ut corrupti possimus alias et veritatis! Asperiores, illum.</p>
+        <h4 class="text-xl font-bold text-center text-balance">¡ Has derrotado a DEVCEBÚ !</h4>
+        <p class="mt-4 mx-auto text-center text-balance">Contra todo pronóstico, después de superar el reto de DEVCEBÚ,
+            {{usuario}} ha logrado recuperar su alma. <br>
+            DEVCEBÚ ha dejado la siguiente imagen como recuerdo de lo cerca que estuvo de quedar atrapado por el resto
+            de la eternidad</p>
     </section>
+    }
+    @else {
+    <section class="max-w-96 m-auto">
+        <h4 class="text-xl font-bold text-center text-balance">¡DEVCEBÚ ha reclamado tu alma...!</h4>
+        <p class="mt-4 mx-auto text-center text-balance">
+            Después de un intento fallido por completar el desafío, {{usuario}} ha sido condenado a quedar atrapado
+            en el espejo para siempre. <br>
+            Tu nueva apariencia refleja el tormento de una eternidad perdida... quizás la próxima vez leas los
+            términos antes de aceptar, ¿no?
+        </p>
+    </section>
+    }
+
+
+
 
     <section class="mirror max-w-96 m-auto my-4 min-h-[600px] flex flex-col justify-center items-center">
         <figure class="rounded-2xl overflow-hidden">

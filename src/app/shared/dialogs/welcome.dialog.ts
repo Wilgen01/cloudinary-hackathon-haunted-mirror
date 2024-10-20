@@ -17,7 +17,7 @@ export const welcomeDialog: Dialogue[] = [
         isEnd: false
     },
     {
-        text: 'Este espejo tiene un poder especial, uno que pocos han llegado a conocer. ¿Curioso? Deberías estarlo. [/n] Pero para descubrirlo, necesitamos que sigas las reglas... solo un par de formalidades.',
+        text: 'Este espejo tiene un poder especial, uno que pocos han llegado a conocer, cuando te reflejas en el te ves en un lugar maravilloso. ¿Curioso? Deberías estarlo. [/n] Pero para continuar, necesitamos que sigas las reglas... solo un par de formalidades.',
         isCharacterVisible: false,
         isEnd: false
     },

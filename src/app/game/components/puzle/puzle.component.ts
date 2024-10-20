@@ -38,13 +38,13 @@ export class PuzleComponent implements OnInit {
   // Inicializa el tablero con una matriz 3x3 y coloca los números aleatorios
   initBoard() {
     // El 0 representa el espacio vacío
-    let numbers = [1, 2, 3, 4, 5, 6, 7, 0, 8];
+    let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 
     // Barajar los números y asegurarse de que el tablero sea resoluble
     do {
       console.log('mezclado');
 
-      // this.shuffleArray(numbers);
+      this.shuffleArray(numbers);
       this.board = [
         [numbers[0], numbers[1], numbers[2]],
         [numbers[3], numbers[4], numbers[5]],
