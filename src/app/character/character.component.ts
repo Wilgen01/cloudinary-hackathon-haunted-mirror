@@ -4,6 +4,7 @@ import { ConversationService } from '../shared/services/conversation.service';
 import { Dialogue } from '../shared/models/dialogue.model';
 import { CommonModule } from '@angular/common';
 import { SafeHtmlPipe } from '../shared/pipes/sanitize.pipe';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-character',
@@ -23,6 +24,13 @@ export class CharacterComponent {
     this.currentDialogue = computed(() => this.dialogueService.getCurrentDialogue());
     this.isDialogOpen = computed(() => this.dialogueService.isDialogOpen());
     this.currentDialogueText = computed(() => this.dialogueService.getCurrentDialogueText());
+    toObservable(this.isDialogOpen).subscribe(isOpen => {
+      if (isOpen) {
+        document.body.style.overflowY = 'hidden';
+      }else{
+        document.body.style.overflowY = 'auto';
+      }
+    })
   }
 
   onNextDialogue() {
