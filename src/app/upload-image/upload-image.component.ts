@@ -10,8 +10,12 @@ import { auto } from '@cloudinary/url-gen/actions/resize';
 import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
 import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
 import { ImageInfo } from '../shared/models/image-info.model';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, tap } from 'rxjs/operators';
 import { Dialogue } from '../shared/models/dialogue.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ControlsService } from '../shared/services/controls.service';
+import { HotToastService } from '@ngneat/hot-toast';
+import { toastConf } from '../shared/helpers/toast-conf';
 
 const mensajesError: Record<number, Dialogue[]> = {
   1: uploadError1,
@@ -30,28 +34,38 @@ export class UploadImageComponent implements OnInit {
   private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
   private readonly conversationService: ConversationService = inject(ConversationService);
   private readonly router: Router = inject(Router);
+  private readonly spinner: NgxSpinnerService = inject(NgxSpinnerService);
+  private readonly toast: HotToastService = inject(HotToastService);
+  private readonly controlsService: ControlsService = inject(ControlsService);
 
   cld: Cloudinary = cloudinaryConf;
-  imageId : string = '';
+  imageId: string = '';
   tryCount: number = 1;
 
 
   ngOnInit(): void {
+    localStorage.removeItem('gameState');
     this.conversationService.startDialogue(uploadDialog);
   }
 
   uploadImage(files: FileList) {
+    this.spinner.show();
     this.cloudinaryService.uploadImage(files[0]).pipe(
       concatMap(result => this.detectFacesInImage(result.public_id))
     ).subscribe({
       next: (imgInfo) => {
-        if (!this.isValidImage(imgInfo)){
+        this.spinner.hide();
+        if (!this.isValidImage(imgInfo)) {
           this.onImageInvalid();
           return;
         }
         localStorage.setItem(this.imageId, JSON.stringify(imgInfo));
         this.router.navigate([`/game/${this.imageId}`]);
-      }
+      },
+      error: () => { 
+        this.toast.error('No se ha podido subir la imagen, ¡Inténtalo de nuevo!', toastConf);
+        this.spinner.hide();
+       }
     })
   }
 
@@ -79,19 +93,18 @@ export class UploadImageComponent implements OnInit {
     return validation;
   }
 
-  onImageInvalid(){
-    localStorage.removeItem('gameState');
+  onImageInvalid() {
     if (this.tryCount > 3) {
       this.router.navigate([`/game/haunted_mirror/ufs6rea5v2kqo28eckio`]);
       return;
     }
 
-    this.conversationService.startDialogue(mensajesError[this.tryCount]);
+    this.controlsService.isTextActive()?
+    this.conversationService.startDialogue(mensajesError[this.tryCount]) : this.toast.info('No se ha podido detectar un rostro en la imagen que has subido, ¡Inténtalo de nuevo!', toastConf);
     this.tryCount++;
   }
 
   navigateToGame(imageId: string) {
-    localStorage.removeItem('gameState');
     this.router.navigate([`/game/${imageId}`]);
   }
 

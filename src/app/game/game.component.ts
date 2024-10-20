@@ -17,6 +17,7 @@ import { gameDialog1, gameDialog2 } from '../shared/dialogs/game.dialog';
 import { Dialogue } from '../shared/models/dialogue.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlsService } from '../shared/services/controls.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 enum STATE {
   WIN = 'WIN',
@@ -40,6 +41,7 @@ export class GameComponent implements OnInit {
   private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
   private readonly conversationService: ConversationService = inject(ConversationService);
   private readonly controlsService: ControlsService = inject(ControlsService);
+  private readonly spinner: NgxSpinnerService = inject(NgxSpinnerService);
 
   cld: Cloudinary = cloudinaryConf;
   img: CloudinaryImage;
@@ -52,6 +54,7 @@ export class GameComponent implements OnInit {
   gameState = STATE.FIRST_STEP;
   puzleCompleted: boolean = false;
   isloading: boolean = false;
+  width: number = 480;
 
   constructor() {
     this.conversationService.dialogEnd$.pipe(takeUntilDestroyed()).subscribe(() => {
@@ -60,10 +63,11 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setGameState();
+    this.obtenerWidth();
     this.obtenerImageId();
     this.generarImagenes();
     this.warmImages();
+    this.setGameState();
   }
 
   setGameState() {
@@ -100,7 +104,10 @@ export class GameComponent implements OnInit {
   }
 
   onDialogEnd() {
-    if (this.isloading) return;
+    if (this.isloading) {
+      this.spinner.show();
+      return;
+    };
     switch (this.gameState) {
       case STATE.FIRST_STEP:
         this.gameState = STATE.SECOND_STEP;
@@ -160,9 +167,11 @@ export class GameComponent implements OnInit {
         this.showPuzzle = true
         this.isloading = false;
         this.onDialogEnd();
+        this.spinner.hide();
         console.log('next', res);
       }),
       error: (err => {
+        this.spinner.hide();
         this.isloading = false;
         console.log('error', err);
       })
@@ -193,6 +202,13 @@ export class GameComponent implements OnInit {
     localStorage.setItem('gameState', this.gameState);
     localStorage.setItem('gameCompleted', 'true');
     this.router.navigate([`/game/${this.imageId}/result`]);
+  }
+
+  obtenerWidth() {
+    const width = window.innerWidth;
+    if (width >= 480) return;
+    const residuo = width % 3;
+    this.width = width - (residuo + 9);
   }
 
 }

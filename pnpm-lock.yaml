@@ -35,9 +35,18 @@ dependencies:
   '@cloudinary/url-gen':
     specifier: ^1.21.0
     version: 1.21.0
+  '@ngneat/hot-toast':
+    specifier: 7.0.0
+    version: 7.0.0(@angular/core@18.2.8)(@ngneat/overview@6.0.0)
+  '@ngneat/overview':
+    specifier: 6.0.0
+    version: 6.0.0(@angular/core@18.2.8)
   flowbite:
     specifier: ^2.5.2
     version: 2.5.2
+  ngx-spinner:
+    specifier: ^17.0.0
+    version: 17.0.0(@angular/animations@18.2.8)(@angular/common@18.2.8)(@angular/core@18.2.8)
   rxjs:
     specifier: ~7.8.0
     version: 7.8.1
@@ -2633,6 +2642,26 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@ngneat/hot-toast@7.0.0(@angular/core@18.2.8)(@ngneat/overview@6.0.0):
+    resolution: {integrity: sha512-t/7msPgtZT534HBxAPjvr6dovP0jyf/intibceUq6i+woa4gnt44jSMsAmI3WVz8UoOmwG1wBwJOKu0zdLmCOA==}
+    peerDependencies:
+      '@angular/core': '>= 17.0.0 < 18.0.0'
+      '@ngneat/overview': 6.0.0
+    dependencies:
+      '@angular/core': 18.2.8(rxjs@7.8.1)(zone.js@0.14.10)
+      '@ngneat/overview': 6.0.0(@angular/core@18.2.8)
+      tslib: 2.7.0
+    dev: false
+
+  /@ngneat/overview@6.0.0(@angular/core@18.2.8):
+    resolution: {integrity: sha512-pm4bAEYtnUl8q82dwjh5NN9HF0WTFEI58VtR12izp9Oaa2dtseX82VUArfb4fadmlbHpPMUwXHrsm0ORyWii2A==}
+    peerDependencies:
+      '@angular/core': '>=17'
+    dependencies:
+      '@angular/core': 18.2.8(rxjs@7.8.1)(zone.js@0.14.10)
+      tslib: 2.7.0
+    dev: false
 
   /@ngtools/webpack@18.2.8(@angular/compiler-cli@18.2.8)(typescript@5.5.4)(webpack@5.94.0):
     resolution: {integrity: sha512-sq0kI8gEen4QlM6X8XqOYy7j4B8iLCYNo+iKxatV36ts4AXH0MuVkP56+oMaoH5oZNoSqd0RlfnotEHfvJAr8A==}
@@ -6194,6 +6223,19 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /ngx-spinner@17.0.0(@angular/animations@18.2.8)(@angular/common@18.2.8)(@angular/core@18.2.8):
+    resolution: {integrity: sha512-VWDSvLlCnaWqu0W1L+ybQIRHTbd+GffkX1sWs++iMPXMGVJ2ZCuzW32FHnu+p0regMUHU8r1/rvUcFD0YooJxQ==}
+    peerDependencies:
+      '@angular/animations': '>=15.0.0'
+      '@angular/common': '>=15.0.0'
+      '@angular/core': '>=15.0.0'
+    dependencies:
+      '@angular/animations': 18.2.8(@angular/core@18.2.8)
+      '@angular/common': 18.2.8(@angular/core@18.2.8)(rxjs@7.8.1)
+      '@angular/core': 18.2.8(rxjs@7.8.1)(zone.js@0.14.10)
+      tslib: 2.7.0
+    dev: false
 
   /nice-napi@1.0.2:
     resolution: {integrity: sha512-px/KnJAJZf5RuBGcfD+Sp2pAKq0ytz8j+1NehvgIGFkvtvFrDM3T8E4x/JJODXK9WZow8RRGrbA9QQ3hs+pDhA==}
