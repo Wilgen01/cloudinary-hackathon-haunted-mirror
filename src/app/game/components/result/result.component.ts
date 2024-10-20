@@ -41,6 +41,7 @@ export class ResultComponent implements OnInit {
   usuario: string = localStorage.getItem('name') ?? 'Midudev';
 
   ngOnInit(): void {
+    localStorage.removeItem('gameState');
     this.iniciarConversacion();
     this.obtenerImageId();
     this.imgBase = this.generarImagenBase();
@@ -83,7 +84,7 @@ export class ResultComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'coverImage.jpg';
+        a.download = 'hauntes_mirror.jpg';
         a.click();
         window.URL.revokeObjectURL(url);
       }

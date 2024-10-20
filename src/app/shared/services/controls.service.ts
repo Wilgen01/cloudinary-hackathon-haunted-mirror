@@ -4,14 +4,16 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
   providedIn: 'root'
 })
 export class ControlsService {
-  isSoundActive: WritableSignal<boolean> = signal<boolean>(true);
-  isTextActive: WritableSignal<boolean> = signal<boolean>(true);
+  isSoundActive: WritableSignal<boolean> = signal<boolean>(false);
+  isTextActive: WritableSignal<boolean> = signal<boolean>(false);
 
   constructor() {
     const sound = localStorage.getItem('sound');
     const text = localStorage.getItem('text');
-    if (!sound || sound === 'true') this.isSoundActive.set(true);
-    if (!text || text === 'true') this.isTextActive.set(true);
+    console.log(sound, text);
+    
+    if (sound == null || sound === 'true') this.isSoundActive.set(true);
+    if (text == null || text === 'true') this.isTextActive.set(true);
   }
 
   toggleSound() {

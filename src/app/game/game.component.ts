@@ -16,6 +16,7 @@ import { ConversationService } from '../shared/services/conversation.service';
 import { gameDialog1, gameDialog2 } from '../shared/dialogs/game.dialog';
 import { Dialogue } from '../shared/models/dialogue.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ControlsService } from '../shared/services/controls.service';
 
 enum STATE {
   WIN = 'WIN',
@@ -38,6 +39,7 @@ export class GameComponent implements OnInit {
   private readonly router: Router = inject(Router);
   private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
   private readonly conversationService: ConversationService = inject(ConversationService);
+  private readonly controlsService: ControlsService = inject(ControlsService);
 
   cld: Cloudinary = cloudinaryConf;
   img: CloudinaryImage;
@@ -49,6 +51,7 @@ export class GameComponent implements OnInit {
   time: number = 6660;
   gameState = STATE.FIRST_STEP;
   puzleCompleted: boolean = false;
+  isloading: boolean = false;
 
   constructor() {
     this.conversationService.dialogEnd$.pipe(takeUntilDestroyed()).subscribe(() => {
@@ -57,7 +60,7 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.setGameState();
+    this.setGameState();
     this.obtenerImageId();
     this.generarImagenes();
     this.warmImages();
@@ -69,13 +72,20 @@ export class GameComponent implements OnInit {
 
     switch (this.gameState) {
       case STATE.FIRST_STEP:
-        this.iniciarConversacion(gameDialog1)
+        if (this.controlsService.isTextActive()) {
+          this.iniciarConversacion(gameDialog1)
+        } else {
+          this.gameState = STATE.THIRD_STEP;
+          localStorage.setItem('gameState', this.gameState);
+          this.onDialogEnd();
+        }
         break;
       case STATE.SECOND_STEP:
+        this.time = 6660;
         this.showTimer = true;
         break;
       case STATE.THIRD_STEP:
-        this.iniciarConversacion(gameDialog2)
+        this.controlsService.isTextActive() ? this.iniciarConversacion(gameDialog2) : this.onDialogEnd();
         break;
       case STATE.FOURTH_STEP:
         this.time = 60000;
@@ -90,6 +100,7 @@ export class GameComponent implements OnInit {
   }
 
   onDialogEnd() {
+    if (this.isloading) return;
     switch (this.gameState) {
       case STATE.FIRST_STEP:
         this.gameState = STATE.SECOND_STEP;
@@ -137,19 +148,22 @@ export class GameComponent implements OnInit {
   }
 
   warmImages() {
+    this.isloading = true;
     const respuestaImagen = this.cloudinaryService.warmImage(this.img.toURL());
     const respuestaBgImagen = this.cloudinaryService.warmImage(this.backgroundImg.toURL());
 
 
     forkJoin({ respuestaImagen, respuestaBgImagen }).pipe(
-      retry({ count: 10, delay: 5000 })
+      retry({ count: 15, delay: 5000 })
     ).subscribe({
       next: (res => {
         this.showPuzzle = true
-        this.setGameState();
+        this.isloading = false;
+        this.onDialogEnd();
         console.log('next', res);
       }),
       error: (err => {
+        this.isloading = false;
         console.log('error', err);
       })
     })
@@ -165,6 +179,7 @@ export class GameComponent implements OnInit {
         break;
       case STATE.FOURTH_STEP:
         this.gameState = STATE.LOSE;
+        localStorage.setItem('gameCompleted', 'true');
         localStorage.setItem('gameState', this.gameState);
         this.router.navigate([`/game/${this.imageId}/result`]);
         break;

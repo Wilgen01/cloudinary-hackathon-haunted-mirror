@@ -80,6 +80,7 @@ export class UploadImageComponent implements OnInit {
   }
 
   onImageInvalid(){
+    localStorage.removeItem('gameState');
     if (this.tryCount > 3) {
       this.router.navigate([`/game/haunted_mirror/ufs6rea5v2kqo28eckio`]);
       return;
@@ -87,6 +88,11 @@ export class UploadImageComponent implements OnInit {
 
     this.conversationService.startDialogue(mensajesError[this.tryCount]);
     this.tryCount++;
+  }
+
+  navigateToGame(imageId: string) {
+    localStorage.removeItem('gameState');
+    this.router.navigate([`/game/${imageId}`]);
   }
 
 }
