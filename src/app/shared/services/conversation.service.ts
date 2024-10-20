@@ -1,11 +1,14 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Dialogue } from '../models/dialogue.model';
 import { Subject } from 'rxjs';
+import { ControlsService } from './controls.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConversationService {
+  private readonly controlsService: ControlsService = inject(ControlsService);
+
   dialogues: WritableSignal<Dialogue[]> = signal([]);
   currentDialogueIndex: WritableSignal<number> = signal(-1);
   isDialogOpen: WritableSignal<boolean> = signal(false);
@@ -21,6 +24,7 @@ export class ConversationService {
   }
 
   startDialogue(dialogues: Dialogue[]) {
+    if (!this.controlsService.isTextActive()) return;
     this.dialogues.set(dialogues);
     this.currentDialogueIndex.set(0);
     this.isDialogOpen.set(true);
@@ -53,6 +57,7 @@ export class ConversationService {
   }
 
   playTypingSound() {
+    if (!this.controlsService.isSoundActive()) return;
     this.typingSound.volume = 0.007;
     this.typingSound.pause();
     this.typingSound.currentTime = 0;

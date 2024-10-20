@@ -17,6 +17,8 @@ import { ConversationService } from '../../../shared/services/conversation.servi
 import { Dialogue } from '../../../shared/models/dialogue.model';
 import { defeatDialog, victoryDialog } from '../../../shared/dialogs/result.dialog';
 import { CommonModule } from '@angular/common';
+import { HotToastService } from '@ngneat/hot-toast';
+import { toastConf } from '../../../shared/helpers/toast-conf';
 
 type EstadoJuego = 'WIN' | 'LOSE';
 
@@ -31,6 +33,8 @@ export class ResultComponent implements OnInit {
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
   private readonly conversationService: ConversationService = inject(ConversationService);
+  private readonly toast: HotToastService = inject(HotToastService);
+
 
   cld: Cloudinary = cloudinaryConf;
   img: CloudinaryImage;
@@ -41,6 +45,8 @@ export class ResultComponent implements OnInit {
   usuario: string = localStorage.getItem('name') ?? 'Midudev';
 
   ngOnInit(): void {
+    localStorage.removeItem('gameState');
+    this.toast.info('Nueva Opción disponible: Ahora puedes desactivar los textos, encuéntralo en el menú de opciones', toastConf);
     this.iniciarConversacion();
     this.obtenerImageId();
     this.imgBase = this.generarImagenBase();
@@ -83,7 +89,7 @@ export class ResultComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'coverImage.jpg';
+        a.download = 'hauntes_mirror.jpg';
         a.click();
         window.URL.revokeObjectURL(url);
       }

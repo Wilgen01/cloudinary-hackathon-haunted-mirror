@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -20,14 +20,20 @@ import { ImageInfo } from './shared/models/image-info.model';
 import { ConversationService } from './shared/services/conversation.service';
 import { welcomeDialog } from './shared/dialogs/welcome.dialog';
 import { CharacterComponent } from './character/character.component';
+import { ControlsComponent } from './shared/components/controls/controls.component';
+import { initFlowbite } from 'flowbite';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { HotToastService } from '@ngneat/hot-toast';
+import { toastConf } from './shared/helpers/toast-conf';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, CloudinaryModule, CharacterComponent],
+  imports: [CommonModule, RouterOutlet, CloudinaryModule, CharacterComponent, ControlsComponent, NgxSpinnerModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 export class AppComponent implements OnInit {
@@ -39,6 +45,7 @@ export class AppComponent implements OnInit {
   showImage: boolean = false;
 
   ngOnInit() {
+    initFlowbite();
     // const cld = new Cloudinary({
     //   cloud: {
     //     cloudName: 'cloudWilgen'

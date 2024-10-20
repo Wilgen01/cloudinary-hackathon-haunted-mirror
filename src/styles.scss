@@ -1,3 +1,5 @@
+@use '@ngneat/hot-toast/src/styles/styles.scss';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -22,13 +24,12 @@
 }
 
 body {
-    height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    background-attachment: fixed;
     background-image: url("/images/bg.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    position: relative;
 }
 
 #particles-js {

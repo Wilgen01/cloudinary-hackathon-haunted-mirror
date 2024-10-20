@@ -6,11 +6,33 @@
     @else {
     <span class="text-center m-8 text-5xl text-primary-500 creepster-regular block mx-auto">00:00:00</span>
     }
+    @if (showPuzzle) {
     <app-puzle *ngIf="showPuzzle" [baseImageUrl]="imgBase.toURL()" [imageUrl]="img.toURL()"
-        [imageBgUrl]="backgroundImg.toURL()"></app-puzle>
-    <!-- <app-puzle *ngIf="true"
-        baseImageUrl="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg"
-        imageUrl="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg"
-        imageBgUrl="https://img.freepik.com/foto-gratis/hombre-morena-sobre-fondo-blanco-aislado_1368-4406.jpg"
-        (puzzleCompleted)="onPuzzleCompleted()"></app-puzle> -->
+        [imageBgUrl]="backgroundImg.toURL()" (puzzleCompleted)="onPuzzleCompleted()"></app-puzle>
+    }
+    @else {
+
+    <div class="rounded shadow animate-pulse dark:border-gray-700"
+        [style]="{width: width+'px', height: width+'px'}">
+        <div class="flex flex-col gap-2">
+            <div class="flex gap-2">
+                <div class="w-full bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+                <div class="w-full  bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+                <div class="w-full bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+            </div>
+            <div class="flex gap-2">
+                <div class="w-full bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+                <div class="w-full  bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+                <div class="w-full bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+            </div>
+            <div class="flex gap-2">
+                <div class="w-full bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+                <div class="w-full h-56 bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+                <div class="w-full bg-gray-200 " [style.width]="width/3+'px'" [style.height]="width/3+'px'"></div>
+            </div>
+        </div>
+        <span class="sr-only">Loading...</span>
+    </div>
+
+    }
 </main>
