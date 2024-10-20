@@ -1,11 +1,11 @@
 .puzzle {
   display: flex;
   flex-direction: column;
-  width: 30rem;
+  // width: 30rem;
   margin: 0 auto;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 480px 480px;
+  // background-size: 480px 480px;
 }
 
 .row {
@@ -13,8 +13,8 @@
 }
 
 .tile {
-  width: 10rem;
-  height: 10rem;
+  // width: 10rem;
+  // height: 10rem;
   display: flex;
   justify-content: center;
   align-items: center;

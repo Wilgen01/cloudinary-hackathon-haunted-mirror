@@ -2,13 +2,13 @@
 module.exports = {
   content: [
     "./src/**/*.{html,ts}",
-     "./node_modules/flowbite/**/*.js"
+    "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     extend: {
       colors: {
         primary: {
-          50:  '#FFF5EB',
+          50: '#FFF5EB',
           100: '#FFE7D1',
           200: '#FFCB9E',
           300: '#FFA870',
@@ -20,6 +20,9 @@ module.exports = {
           900: '#662800',
         },
         'black': '#212121',
+      },
+      screens: {
+        'xs': '480px', 
       }
     },
   },

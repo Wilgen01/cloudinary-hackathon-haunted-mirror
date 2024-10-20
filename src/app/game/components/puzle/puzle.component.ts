@@ -1,17 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { getPositions } from '../../../shared/helpers/tile-position';
 
-const posiciones: Record<number, { x: number, y: number }> = {
-  1: { x: 0 * 160, y: 0 * 160 },
-  2: { x: 1 * 160, y: 0 * 160 },
-  3: { x: 2 * 160, y: 0 * 160 },
-  4: { x: 0 * 160, y: 1 * 160 },
-  5: { x: 1 * 160, y: 1 * 160 },
-  6: { x: 2 * 160, y: 1 * 160 },
-  7: { x: 0 * 160, y: 2 * 160 },
-  8: { x: 1 * 160, y: 2 * 160 },
-  0: { x: 2 * 160, y: 2 * 160 }
-}
 @Component({
   selector: 'app-puzle',
   standalone: true,
@@ -29,9 +19,20 @@ export class PuzleComponent implements OnInit {
   board: number[][] = [];
   emptyPosition: { row: number, col: number } = { row: 0, col: 0 };
   isSolved: boolean = false;
+  width: number = 480;
+  posiciones: Record<number, { x: number, y: number }> = getPositions(this.width);
 
   ngOnInit() {
     this.initBoard();
+    this.obtenerWidth();
+  }
+
+  obtenerWidth() {
+    const width = window.innerWidth;
+    if (width >= 480) return;
+    const residuo = width % 3;
+    this.width = width - (residuo + 9);
+    this.posiciones = getPositions(this.width);
   }
 
   // Inicializa el tablero con una matriz 3x3 y coloca los números aleatorios
@@ -102,11 +103,11 @@ export class PuzleComponent implements OnInit {
     if (this.board[this.emptyPosition.row][this.emptyPosition.col] === tile) return {};
 
     return {
-      width: 160 + 'px',
-      height: 160 + 'px',
+      width: this.width / 3 + 'px',
+      height: this.width / 3 + 'px',
       backgroundImage: 'url(' + this.imageUrl + ')',
-      backgroundPosition: (-posiciones[tile].x) + 'px ' + (-posiciones[tile].y) + 'px',
-      backgroundSize: '480px 480px',
+      backgroundPosition: (-this.posiciones[tile].x) + 'px ' + (-this.posiciones[tile].y) + 'px',
+      backgroundSize: `${this.width}px ${this.width}px`,
     };
   }
 

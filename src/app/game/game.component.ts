@@ -45,7 +45,7 @@ export class GameComponent implements OnInit {
   imageId: string = 'haunted_mirror/ufs6rea5v2kqo28eckio';
   showPuzzle: boolean = false;
   showTimer: boolean = false;
-  time: number = 5000;
+  time: number = 15000;
   gameState = STATE.FIRST_STEP;
   puzleCompleted: boolean = false;
 
@@ -82,7 +82,7 @@ export class GameComponent implements OnInit {
       case STATE.SECOND_STEP:
         this.gameState = STATE.THIRD_STEP;
         localStorage.setItem('gameState', this.gameState);
-        this.time = 10000;
+        this.time = 60000;
         this.showTimer = true;
         break;
     }

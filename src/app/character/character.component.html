@@ -1,14 +1,14 @@
 <div *ngIf="isDialogOpen()"
-    class="bg-gray-700/90 h-screen w-screen absolute top-0 left-0 flex justify-center items-center">
+    class="bg-gray-700/90 h-screen w-screen absolute top-0 left-0 flex justify-center items-center z-10">
 
-    <div class="max-w-3xl min-w-[48rem]">
+    <div class="max-w-3xl w-[90%] sm:w-10/12">
         <section class="max-h-max bg-white shadow-md rounded-lg">
-            <div class="flex justify-between items-center px-4">
-                <div class="w-3/4">
-                    <p class="text-black text-xl" [innerHTML]="currentDialogueText() | sanitize"></p>
+            <div class="flex justify-between flex-col sm:flex-row items-center p-4 pb-0">
+                <div class="grow min-h-20 w-full">
+                    <p class="text-black text-base sm:text-xl" [innerHTML]="currentDialogueText() | sanitize"></p>
                 </div>
-                <figure class="w-1/4 h-48">
-                    <img *ngIf="currentDialogue().isCharacterVisible" class="h-48" src="images/demonio.png"
+                <figure class="grow-0">
+                    <img *ngIf="true" class="h-24 sm:h-48" src="images/demonio.png"
                         alt="character">
                 </figure>
             </div>

@@ -1,7 +1,7 @@
 <section class="max-w-lg mx-auto py-8">
-  <div class="puzzle mt-8" [style.backgroundImage]="'url('+imageBgUrl+')'">
+  <div class="puzzle mt-8" [style.backgroundImage]="'url('+imageBgUrl+')'" [style]="{'background-size': width+'px '+width+'px', width: width+'px'}">
     <div *ngFor="let row of board; let rowIndex = index" class="row">
-      <div *ngFor="let tile of row; let colIndex = index" class="tile" [ngClass]="{'empty': tile === 0}"
+      <div *ngFor="let tile of row; let colIndex = index" class="tile" [ngClass]="{'empty': tile === 0}" [style.width]="width/3+'px'" [style.height]="width/3+'px'"
         [ngStyle]="getStyles(tile)" (click)="moveTile(rowIndex, colIndex)">
         {{ tile !== 0 ? tile : '' }}
       </div>

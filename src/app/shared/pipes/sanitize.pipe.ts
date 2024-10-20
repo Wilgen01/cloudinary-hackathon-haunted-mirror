@@ -1,13 +1,10 @@
 import { Pipe } from "@angular/core";
-import { DomSanitizer } from "@angular/platform-browser";
 
 @Pipe({
     name: "sanitize",
     standalone: true,
 })
 export class SafeHtmlPipe {
-    constructor(private sanitizer: DomSanitizer) { }
-
     transform(value: string) {
         let transformedValue = value;
 
@@ -38,7 +35,7 @@ export class SafeHtmlPipe {
 
         if (matchesOpenB && matchesCloseB && matchesOpenB === matchesCloseB) {
             transformedValue = value
-                .replace(openingTagRegex, '<strong class="text-black text-xl">')  // Reemplazar [b] por <strong>
+                .replace(openingTagRegex, '<strong class="text-black text-base sm:text-xl">')  // Reemplazar [b] por <strong>
                 .replace(closingTagRegex, '</strong>'); // Reemplazar [/b] por </strong>
 
             return transformedValue;
