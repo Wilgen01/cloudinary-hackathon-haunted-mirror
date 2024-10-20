@@ -176,6 +176,7 @@ export class GameComponent implements OnInit {
     this.puzleCompleted = true;
     this.gameState = STATE.WIN;
     localStorage.setItem('gameState', this.gameState);
+    localStorage.setItem('gameCompleted', 'true');
     this.router.navigate([`/game/${this.imageId}/result`]);
   }
 

@@ -13,7 +13,7 @@ module.exports = {
           200: '#FFCB9E',
           300: '#FFA870',
           400: '#FF833C',
-          500: '#FF6500',  // Color base
+          500: '#FF6500', 
           600: '#E65A00',
           700: '#B74600',
           800: '#8A3500',
@@ -27,7 +27,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('flowbite/plugin') // add this line
+    require('flowbite/plugin')
   ],
 }
 

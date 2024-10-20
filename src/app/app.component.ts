@@ -20,12 +20,14 @@ import { ImageInfo } from './shared/models/image-info.model';
 import { ConversationService } from './shared/services/conversation.service';
 import { welcomeDialog } from './shared/dialogs/welcome.dialog';
 import { CharacterComponent } from './character/character.component';
+import { ControlsComponent } from './shared/components/controls/controls.component';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, CloudinaryModule, CharacterComponent],
+  imports: [CommonModule, RouterOutlet, CloudinaryModule, CharacterComponent, ControlsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -39,6 +41,7 @@ export class AppComponent implements OnInit {
   showImage: boolean = false;
 
   ngOnInit() {
+    initFlowbite();
     // const cld = new Cloudinary({
     //   cloud: {
     //     cloudName: 'cloudWilgen'

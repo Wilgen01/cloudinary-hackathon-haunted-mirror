@@ -1,0 +1,57 @@
+<div class="absolute top-0 right-0 m-4 flex gap-4">
+    <button (click)="toggleSound()" type="button" data-popover-target="popover-sound"
+        class="text-primary-700 border border-primary-700 hover:bg-primary-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:focus:ring-primary-800 dark:hover:bg-primary-500">
+        @if (isSoundActive()) {
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17.5 8.43A4.985 4.985 0 0 1 19 12a4.984 4.984 0 0 1-1.43 3.5M14 6.135v11.73a1 1 0 0 1-1.64.768L8 15H6a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2l4.36-3.633a1 1 0 0 1 1.64.768Z" />
+        </svg>
+        }
+        @else {
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15.5 8.43A4.985 4.985 0 0 1 17 12c0 1.126-.5 2.5-1.5 3.5m2.864-9.864A8.972 8.972 0 0 1 21 12c0 2.023-.5 4.5-2.5 6M7.8 7.5l2.56-2.133a1 1 0 0 1 1.64.768V12m0 4.5v1.365a1 1 0 0 1-1.64.768L6 15H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m1-4 14 14" />
+        </svg>
+        }
+        <span class="sr-only">Activar sonido</span>
+    </button>
+
+    <button *ngIf="isGameCompleted" (click)="toggleText()" type="button" data-popover-target="popover-text"
+        class="text-primary-700 border border-primary-700 hover:bg-primary-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:focus:ring-primary-800 dark:hover:bg-primary-500">
+        @if (isTextActive()) {
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" height="24px"
+            viewBox="0 -960 960 960" width="24px" fill="currentColor">
+            <path stroke="currentColor"
+                d="M240-400h480v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM880-80 720-240H160q-33 0-56.5-23.5T80-320v-480q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v720ZM160-320h594l46 45v-525H160v480Zm0 0v-480 480Z" />
+        </svg>
+        }
+        @else {
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" height="24px"
+            viewBox="0 -960 960 960" width="24px" fill="currentColor">
+            <path stroke="currentColor"
+                d="M160-240q-33 0-56.5-23.5T80-320v-447l-53-53 57-57L876-85l-57 57-212-212H160Zm720 45L755-320h45v-480H275l-80-80h605q33 0 56.5 23.5T880-800v605ZM160-320h367l-80-80H240v-80h127l-40-40h-87v-80h7l-87-87v367Zm515-80-80-80h125v80h-45ZM555-520l-80-80h245v80H555ZM435-640l-80-80h365v80H435Zm-91 136Zm171-56Z" />
+        </svg>
+
+        }
+        <span class="sr-only">Activar textos</span>
+    </button>
+</div>
+
+
+<div data-popover id="popover-sound" role="tooltip"
+    class="absolute z-10 invisible inline-block w-max max-w-64 text-sm text-gray-500 transition-opacity duration-300 bg-black border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+    <div class="px-3 py-2">
+        <p class="text-center">Desactivar sonidos</p>
+    </div>
+    <div data-popper-arrow></div>
+</div>
+
+<div data-popover id="popover-text" role="tooltip"
+    class="absolute z-10 invisible inline-block w-max max-w-64 text-sm text-gray-500 transition-opacity duration-300 bg-black border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+    <div class="px-3 py-2">
+        <p class="text-center">Desactivar textos <br> (recomendado después de completar al menos una vez)</p>
+    </div>
+    <div data-popper-arrow></div>
+</div>
