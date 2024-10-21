@@ -1,27 +1,42 @@
-# CloudinaryHackathonHauntedMirror
+# 🎃 Haunted Mirror 🪞
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
+Este proyecto fue creado como parte de la **Spooky AI Hackathon** de **Cloudinary** x **Midudev**, en la que se exploran las capacidades de transformación de imágenes con un enfoque temático para Halloween.
 
-## Development server
+## 👻 Descripción
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+En **Haunted Mirror**, el usuario se encuentra en la "Habitación del Espejo", un lugar en el que debe seguir las instrucciones de un guardián misterioso para avanzar. 
 
-## Code scaffolding
+El espejo promete llevarte a lugares asombrosos, pero ¿realmente lo hará? Hay más de lo que parece, y solo quienes sigan las instrucciones hasta el final descubrirán la verdad.
+## 🔧 Tecnologías Utilizadas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Angular:** Framework para la construcción de la aplicación web.
+- **Cloudinary:** Para el procesamiento y transformación de imágenes del usuario en tiempo real.
+- **Tailwind:** Estilos personalizados.
+- **Flowbite:** Librería de componentes de diseño.
+  
+## 🚀 Instalación y Configuración
 
-## Build
+1. **Clona el repositorio:**
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+   ```bash
+   git clone https://github.com/Wilgen01/cloudinary-hackathon-haunted-mirror
+   cd cloudinary-hackathon-haunted-mirror
+   ```
 
-## Running unit tests
+2. **Instala las dependencias:**
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    ```bash
+    npm install
+    ```
 
-## Running end-to-end tests
+3. **Ejecuta la aplicación localmente:**
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    ```bash
+        ng serve
+    ```
+    Luego, abre http://localhost:4200/ en tu navegador.
 
-## Further help
+## 🖼️ Demostración
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Visita la versión desplegada en Netlify para experimentar **Haunted Mirror**:  
+🔗 [Haunted Mirror - Netlify](https://haunted-mirror.netlify.app/)
