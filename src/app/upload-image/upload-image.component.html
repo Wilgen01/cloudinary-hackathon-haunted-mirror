@@ -1,12 +1,17 @@
 <h1 class="text-center m-8 text-5xl font-[danger] text-primary-500">Haunted Mirror</h1>
 
 <main class="max-w-sm mx-auto">
-    <p class="mb-4">Mírate al espejo y te teletransportarás al lugar maravilloso que siempre deseaste</p>
+    <p class="mb-4">Aquí tienes algunas recomendaciones para mejorar tu experiencia:</p>
+    <ul class="list-disc list-inside text-left mb-4">
+        <li>Tu rostro debe ser claramente visible.</li>
+        <li>Sube una foto preferiblemente de frente, con una buena iluminación.</li>
+        <li>Evita imágenes borrosas o de baja calidad, no querrás que la magia del espejo falle, ¿verdad?</li>
+    </ul>
     <app-file-drag-drop (dropFiles)="uploadImage($event)"></app-file-drag-drop>
 
     <p class="my-5 text-center divider relative">O selecciona una</p>
 
-    <section class="flex items-center justify-around gap-4">
+    <section class="flex items-center justify-around gap-4 mb-8">
         <figure class="rounded-xl overflow-hidden cursor-pointer hover:scale-105" (click)="navigateToGame('haunted_mirror/mzxkoneikabz8v0fut5o')">
             <img src="https://res.cloudinary.com/cloudwilgen/image/upload/c_thumb,h_100,w_100/r_8/haunted_mirror/mzxkoneikabz8v0fut5o"
                 alt="">
