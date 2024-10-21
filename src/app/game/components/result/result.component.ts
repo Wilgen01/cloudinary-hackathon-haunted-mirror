@@ -1,24 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Cloudinary, CloudinaryImage, Transformation } from '@cloudinary/url-gen/index';
-import { cloudinaryConf } from '../../../shared/helpers/cloudinary-conf';
-import { ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs';
-import { auto, scale } from '@cloudinary/url-gen/actions/resize';
-import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
-import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
-import { generativeBackgroundReplace, generativeReplace, upscale } from '@cloudinary/url-gen/actions/effect';
-import { byRadius } from '@cloudinary/url-gen/actions/roundCorners';
-import { source } from '@cloudinary/url-gen/actions/overlay';
-import { image } from '@cloudinary/url-gen/qualifiers/source';
-import { Position } from '@cloudinary/url-gen/qualifiers';
-import { CloudinaryService } from '../../../shared/services/cloudinary.service';
-import { FormsModule } from '@angular/forms';
-import { ConversationService } from '../../../shared/services/conversation.service';
-import { Dialogue } from '../../../shared/models/dialogue.model';
-import { defeatDialog, victoryDialog } from '../../../shared/dialogs/result.dialog';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { generativeBackgroundReplace, generativeReplace, upscale } from '@cloudinary/url-gen/actions/effect';
+import { source } from '@cloudinary/url-gen/actions/overlay';
+import { auto, fill, scale } from '@cloudinary/url-gen/actions/resize';
+import { byRadius } from '@cloudinary/url-gen/actions/roundCorners';
+import { Cloudinary, CloudinaryImage, Transformation } from '@cloudinary/url-gen/index';
+import { Position } from '@cloudinary/url-gen/qualifiers';
+import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
+import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
+import { image } from '@cloudinary/url-gen/qualifiers/source';
 import { HotToastService } from '@ngneat/hot-toast';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { take } from 'rxjs';
+import { defeatDialog, victoryDialog } from '../../../shared/dialogs/result.dialog';
+import { cloudinaryConf } from '../../../shared/helpers/cloudinary-conf';
 import { toastConf } from '../../../shared/helpers/toast-conf';
+import { Dialogue } from '../../../shared/models/dialogue.model';
+import { CloudinaryService } from '../../../shared/services/cloudinary.service';
+import { ConversationService } from '../../../shared/services/conversation.service';
 
 type EstadoJuego = 'WIN' | 'LOSE';
 
@@ -34,6 +35,8 @@ export class ResultComponent implements OnInit {
   private readonly cloudinaryService: CloudinaryService = inject(CloudinaryService);
   private readonly conversationService: ConversationService = inject(ConversationService);
   private readonly toast: HotToastService = inject(HotToastService);
+  private readonly spinner: NgxSpinnerService = inject(NgxSpinnerService);
+
 
 
   cld: Cloudinary = cloudinaryConf;
@@ -41,7 +44,7 @@ export class ResultComponent implements OnInit {
   imgBase: CloudinaryImage;
   imageId: string = 'haunted_mirror/ufs6rea5v2kqo28eckio';
   tieneMarco: boolean = true;
-  estadoJuego: EstadoJuego = (localStorage.getItem('gameState')as EstadoJuego) ?? 'LOSE';
+  estadoJuego: EstadoJuego = (localStorage.getItem('gameState') as EstadoJuego) ?? 'LOSE';
   usuario: string = localStorage.getItem('name') ?? 'Midudev';
 
   ngOnInit(): void {
@@ -50,7 +53,7 @@ export class ResultComponent implements OnInit {
     this.iniciarConversacion();
     this.obtenerImageId();
     this.imgBase = this.generarImagenBase();
-    this.img = this.generarImagenMarco(); 
+    this.img = this.generarImagenMarco();
   }
 
   iniciarConversacion() {
@@ -68,7 +71,7 @@ export class ResultComponent implements OnInit {
   generarImagenBase() {
     const img = this.cld.image(this.imageId);
     img.resize(
-      auto()
+      fill()
         .width(480)
         .height(480)
         .gravity(focusOn(face()))
@@ -83,6 +86,7 @@ export class ResultComponent implements OnInit {
   }
 
   downloadImage() {
+    this.spinner.show();
     this.cloudinaryService.warmImage(this.img.toURL()).subscribe({
       next: (res) => {
         const blob = new Blob([res], { type: 'image/jpeg' });
@@ -92,8 +96,14 @@ export class ResultComponent implements OnInit {
         a.download = 'hauntes_mirror.jpg';
         a.click();
         window.URL.revokeObjectURL(url);
-      }
-    })
+      },
+      error: (err) => {
+        console.log('error', err);
+        this.toast.error('No se ha podido descargar la imagen, ¡Inténtalo de nuevo!', toastConf);
+        this.spinner.hide();
+      },
+      complete: () => this.spinner.hide()
+    });
   }
 
   toggleMarco() {

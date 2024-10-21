@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Dialogue } from '../models/dialogue.model';
 import { Subject } from 'rxjs';
+import { Dialogue } from '../models/dialogue.model';
 import { ControlsService } from './controls.service';
 
 @Injectable({
@@ -58,7 +58,7 @@ export class ConversationService {
 
   playTypingSound() {
     if (!this.controlsService.isSoundActive()) return;
-    this.typingSound.volume = 0.007;
+    this.typingSound.volume = 0.01;
     this.typingSound.pause();
     this.typingSound.currentTime = 0;
     this.typingSound.play().catch((error) => {
