@@ -22,7 +22,12 @@ export const gameDialog1: Dialogue[] = [
         isEnd: false
     },
     {
-        text: 'Tu desafío: pon los fragmentos en su lugar antes de que se acabe el tiempo. Si lo logras, recuperarás tu alma. Si no... bueno, digamos que te acostumbrarás a vivir en el limbo de la procrastinación eterna. ¡Buena suerte, programador ingenuo!',
+        text: 'Tu desafío: pon los fragmentos en su lugar antes de que se acabe el tiempo. Si lo logras, recuperarás tu alma. Si no... bueno, digamos que te acostumbrarás a vivir en el limbo de la procrastinación eterna',
+        isCharacterVisible: true,
+        isEnd: false
+    },
+    {
+        text: 'Te daré... veamos... 6660 Milisegundos para conseguirlo. [/n] ¡Buena suerte!',
         isCharacterVisible: true,
         isEnd: false
     }

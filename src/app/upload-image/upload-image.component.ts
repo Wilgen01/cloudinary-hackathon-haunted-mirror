@@ -1,21 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FileDragDropComponent } from '../shared/components/file-drag-drop/file-drag-drop.component';
-import { CloudinaryService } from '../shared/services/cloudinary.service';
 import { Router, RouterLink } from '@angular/router';
-import { ConversationService } from '../shared/services/conversation.service';
-import { uploadDialog, uploadError1, uploadError2, uploadError3 } from '../shared/dialogs/uplodad.dialog';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 import { Cloudinary } from '@cloudinary/url-gen/index';
-import { cloudinaryConf } from '../shared/helpers/cloudinary-conf';
-import { auto } from '@cloudinary/url-gen/actions/resize';
-import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
 import { face } from '@cloudinary/url-gen/qualifiers/focusOn';
-import { ImageInfo } from '../shared/models/image-info.model';
-import { concatMap, tap } from 'rxjs/operators';
-import { Dialogue } from '../shared/models/dialogue.model';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ControlsService } from '../shared/services/controls.service';
+import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
 import { HotToastService } from '@ngneat/hot-toast';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { concatMap } from 'rxjs/operators';
+import { FileDragDropComponent } from '../shared/components/file-drag-drop/file-drag-drop.component';
+import { uploadDialog, uploadError1, uploadError2, uploadError3 } from '../shared/dialogs/uplodad.dialog';
+import { cloudinaryConf } from '../shared/helpers/cloudinary-conf';
 import { toastConf } from '../shared/helpers/toast-conf';
+import { Dialogue } from '../shared/models/dialogue.model';
+import { ImageInfo } from '../shared/models/image-info.model';
+import { CloudinaryService } from '../shared/services/cloudinary.service';
+import { ControlsService } from '../shared/services/controls.service';
+import { ConversationService } from '../shared/services/conversation.service';
 
 const mensajesError: Record<number, Dialogue[]> = {
   1: uploadError1,
@@ -71,7 +71,7 @@ export class UploadImageComponent implements OnInit {
 
   detectFacesInImage(imageId: string) {
     this.imageId = imageId;
-    const img = this.cld.image(imageId).resize(auto().width(480).height(480).gravity(focusOn(face())));
+    const img = this.cld.image(imageId).resize(fill().width(480).height(480).gravity(focusOn(face())));
     img.addFlag('getinfo');
     return this.cloudinaryService.obtenerInfoImagen(img.toURL())
   }
