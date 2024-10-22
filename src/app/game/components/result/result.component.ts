@@ -126,4 +126,8 @@ export class ResultComponent implements OnInit {
     return img;
   }
 
+  home(){
+    window.location.href = '/';
+  }
+
 }
