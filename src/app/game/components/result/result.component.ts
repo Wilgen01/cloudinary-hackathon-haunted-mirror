@@ -48,7 +48,7 @@ export class ResultComponent implements OnInit {
   imageId: string = 'haunted_mirror/ufs6rea5v2kqo28eckio';
   tieneMarco: boolean = true;
   estadoJuego: EstadoJuego = (localStorage.getItem('gameState') as EstadoJuego) ?? 'LOSE';
-  usuario: string = localStorage.getItem('name') ?? 'Midudev';
+  usuario: string = localStorage.getItem('name') ?? 'Wilgen';
 
   ngOnInit(): void {
     localStorage.removeItem('gameState');
