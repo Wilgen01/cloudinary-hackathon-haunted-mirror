@@ -100,7 +100,7 @@ export class UploadImageComponent implements OnInit {
     }
 
     this.controlsService.isTextActive()?
-    this.conversationService.startDialogue(mensajesError[this.tryCount]) : this.toast.info('No se ha podido detectar un rostro en la imagen que has subido, ¡Inténtalo de nuevo!', toastConf);
+    this.conversationService.startDialogue(mensajesError[this.tryCount]) : this.toast.error('No se ha podido detectar un rostro en la imagen que has subido, ¡Inténtalo de nuevo!', toastConf);
     this.tryCount++;
   }
 
