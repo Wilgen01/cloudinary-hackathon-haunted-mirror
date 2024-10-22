@@ -13,6 +13,24 @@ export const uploadDialog: Dialogue[] = [
     }
 ];
 
+export const uploadDialogMidudev: Dialogue[] = [
+    {
+        text: `Así que tu eres Midudev, el streamer que vende humo acerca de programación en Twitch y odia a los Juniors. [/n] Me dijeron que vendrías, tengo planes especiales para tí`,
+        isCharacterVisible: false,
+        isEnd: false
+    },
+    {
+        text: `No te preocupes, no te arrepentirás de haber firmado... [/n] (Espero que no haya leído los [b]Términos y Condiciones[/b], ¡ja!)`,
+        isCharacterVisible: false,
+        isEnd: false
+    },
+    {
+        text: 'Bien, vamos al grano. Haz que tu [b]reflejo[/b] aparezca en el espejo, ya sabes, la magia no funciona sin él.',
+        isCharacterVisible: false,
+        isEnd: false
+    }
+];
+
 export const uploadError1: Dialogue[] = [
     {
         text: `Parece que el [b]reflejo[/b] que has usado no es válido... ¿Es esto una broma? [/n] Intenta otra vez, no me hagas perder la paciencia.`,

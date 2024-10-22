@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { generativeBackgroundReplace, generativeReplace, upscale } from '@cloudinary/url-gen/actions/effect';
 import { source } from '@cloudinary/url-gen/actions/overlay';
 import { auto, fill, scale } from '@cloudinary/url-gen/actions/resize';
@@ -20,6 +20,8 @@ import { toastConf } from '../../../shared/helpers/toast-conf';
 import { Dialogue } from '../../../shared/models/dialogue.model';
 import { CloudinaryService } from '../../../shared/services/cloudinary.service';
 import { ConversationService } from '../../../shared/services/conversation.service';
+import { GalleryService } from '../../../shared/services/gallery.service';
+import { Gallery } from '../../../shared/models/gallery.model';
 
 type EstadoJuego = 'WIN' | 'LOSE';
 
@@ -36,7 +38,8 @@ export class ResultComponent implements OnInit {
   private readonly conversationService: ConversationService = inject(ConversationService);
   private readonly toast: HotToastService = inject(HotToastService);
   private readonly spinner: NgxSpinnerService = inject(NgxSpinnerService);
-
+  private readonly galleryService: GalleryService = inject(GalleryService);
+  private readonly router: Router = inject(Router);
 
 
   cld: Cloudinary = cloudinaryConf;
@@ -54,6 +57,7 @@ export class ResultComponent implements OnInit {
     this.obtenerImageId();
     this.imgBase = this.generarImagenBase();
     this.img = this.generarImagenMarco();
+    this.addGalleryItem();
   }
 
   iniciarConversacion() {
@@ -102,7 +106,7 @@ export class ResultComponent implements OnInit {
         this.toast.error('No se ha podido descargar la imagen, ¡Inténtalo de nuevo!', toastConf);
         this.spinner.hide();
       },
-      complete: () => this.spinner.hide()
+      complete: () => {this.spinner.hide()}
     });
   }
 
@@ -128,6 +132,23 @@ export class ResultComponent implements OnInit {
 
   home(){
     window.location.href = '/';
+  }
+
+  gallery(){
+    this.router.navigate(['/gallery']);
+  }
+
+  addGalleryItem() {
+    const item: Partial<Gallery> = {
+      id: this.imageId.split('/')[1],
+      fecha: new Date(),
+      imageId: this.imageId,
+      nombre: localStorage.getItem('name') ?? 'Wilgen',
+      liberado: false,
+      imageUrl: this.imgBase.toURL(),
+      timestamp: Date.now()
+    }
+    this.galleryService.addGalleryItem(item);
   }
 
 }

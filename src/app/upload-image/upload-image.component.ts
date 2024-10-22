@@ -8,7 +8,7 @@ import { HotToastService } from '@ngneat/hot-toast';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { concatMap } from 'rxjs/operators';
 import { FileDragDropComponent } from '../shared/components/file-drag-drop/file-drag-drop.component';
-import { uploadDialog, uploadError1, uploadError2, uploadError3 } from '../shared/dialogs/uplodad.dialog';
+import { uploadDialog, uploadDialogMidudev, uploadError1, uploadError2, uploadError3 } from '../shared/dialogs/uplodad.dialog';
 import { cloudinaryConf } from '../shared/helpers/cloudinary-conf';
 import { toastConf } from '../shared/helpers/toast-conf';
 import { Dialogue } from '../shared/models/dialogue.model';
@@ -45,7 +45,16 @@ export class UploadImageComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.removeItem('gameState');
-    this.conversationService.startDialogue(uploadDialog);
+    this.startDialogue();
+  }
+
+  startDialogue() {
+    const name = (localStorage.getItem('name') ?? '').toLocaleLowerCase();
+    if (name === 'midudev' || name === 'midu') {
+      this.conversationService.startDialogue(uploadDialogMidudev);
+    } else {
+      this.conversationService.startDialogue(uploadDialog);
+    }
   }
 
   uploadImage(files: FileList) {
