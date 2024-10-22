@@ -73,7 +73,8 @@ export class LiberarComponent {
     this.galleryService.updateItem({
       id: this.imageId.split('/')[1],
       liberado: true,
-      liberadoPor: localStorage.getItem('name') ?? 'Wilgen'
+      liberadoPor: localStorage.getItem('name') ?? 'Wilgen',
+      timestamp: Date.now()
     });
     this.router.navigate([`/gallery`]);
   }
