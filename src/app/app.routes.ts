@@ -31,6 +31,14 @@ export const routes: Routes = [
         loadComponent: () => import('./terminos-y-condiciones/terminos-y-condiciones.component').then(m => m.TerminosYCondicionesComponent)
     },
     {
+        path: 'gallery',
+        loadComponent: () => import('./gallery/gallery.component').then(m => m.GalleryComponent)
+    },
+    {
+        path: 'liberar/:folder/:file',
+        loadComponent: () => import('./liberar/liberar.component').then(m => m.LiberarComponent)
+    },
+    {
         path: '**',
         redirectTo: '/home',
         pathMatch: 'full'

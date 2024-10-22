@@ -1,0 +1,44 @@
+<h1 class="text-center m-8 text-5xl font-[danger] text-primary-500">Haunted Mirror</h1>
+
+<main class="max-w-4xl mx-auto dark mb-8">
+    <button type="submit" [routerLink]="['/']"
+        class="text-white bg-primary-500 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center my-8">Volver
+        al inicio</button>
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4 items-center">
+        @for (item of galleryItems(); track $index) {
+        <div
+            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-full">
+            <a href="#">
+                <img class="rounded-t-lg aspect-square" width="400" height="400" [src]="item.imageUrl" alt="" />
+            </a>
+            <div class="p-5">
+                @if (item.liberado) {
+                <h5 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">{{item.nombre}} es
+                    libre</h5>
+
+                @if (item.liberadoPor) {
+                <p class="mb-2 text-xs text-gray-300">{{item.nombre}} fue liberado/a por {{item.liberadoPor}}</p>
+                }
+                @else {
+                <p class="mb-2 text-xs text-gray-300">Ha completado el reto de DEVCEBÚ</p>
+                }
+                }
+                @else {
+                <h5 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">{{item.nombre}} Ha
+                    sido condenado/a</h5>
+                <p class="mb-2 text-xs text-gray-300">Puedes intentar liberarlo/a ordenando los fragmentos de su alma</p>
+                }
+                <a *ngIf="!item.liberado" [routerLink]="['/liberar/' + item.imageId]"
+                    routerLinkActive="router-link-active" class="inline-flex items-center text-primary-400 font-bold">
+                    Liberar
+                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 14 10">
+                        <path class="text-primary-400" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        }
+    </div>
+</main>

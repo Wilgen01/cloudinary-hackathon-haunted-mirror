@@ -1,0 +1,12 @@
+<h1 class="text-center m-8 text-5xl font-[danger] text-primary-500">Haunted Mirror</h1>
+<main class="max-w-lg mx-auto">
+    <h4 class="text-xl font-bold text-center text-balance">¡Libera a tus amigos atrapados en el espejo!</h4>
+    <p class="mt-4 mx-auto text-center text-balance">
+        Algunos han fallado en el reto de DEVCEBÚ y han quedado atrapados en la habitación del espejo, condenados
+        a reflejarse en una apariencia aterradora.
+        <br><br>
+        Pero ahora, tienes el poder de liberarlos. Reordena los fragmentos de sus almas para que puedan ser liberados.
+    </p>
+    <app-puzle [baseImageUrl]="imgBase.toURL()" [imageUrl]="img.toURL()" [imageBgUrl]="backgroundImg.toURL()"
+        (puzzleCompleted)="onPuzzleCompleted()"></app-puzle>
+</main>
