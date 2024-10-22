@@ -144,7 +144,7 @@ export class ResultComponent implements OnInit {
       fecha: new Date(),
       imageId: this.imageId,
       nombre: localStorage.getItem('name') ?? 'Wilgen',
-      liberado: false,
+      liberado: this.estadoJuego == 'WIN',
       imageUrl: this.imgBase.toURL(),
       timestamp: Date.now()
     }

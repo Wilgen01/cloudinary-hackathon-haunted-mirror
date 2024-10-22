@@ -5,7 +5,7 @@ import { interval, Subject, take, timer } from 'rxjs';
   providedIn: 'root'
 })
 export class TimerService {
-  private timeEnd: Subject<void> = new Subject();
+  private readonly timeEnd: Subject<void> = new Subject();
   timer: WritableSignal<string> = signal<string>('00:30:00');
   timeEnd$ = this.timeEnd.asObservable();
   
@@ -32,7 +32,7 @@ export class TimerService {
     this.timer.set(`${hoursStr}:${minutesStr}:${secondsStr}`);
   }
 
-  private endTimer() {
+  endTimer() {
     timer(1000).subscribe(() => {
       this.timer.set('00:00:00');
       this.timeEnd.next();
