@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { interval, Subject, take, timer } from 'rxjs';
+import { interval, Subject, Subscription, take, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +8,12 @@ export class TimerService {
   private readonly timeEnd: Subject<void> = new Subject();
   timer: WritableSignal<string> = signal<string>('00:30:00');
   timeEnd$ = this.timeEnd.asObservable();
-  
+  timerIntervalSubscription: Subscription;
+
 
   startTimer(ms: number) {
     this.setTimer(ms);
-    interval(1000).pipe(
+    this.timerIntervalSubscription = interval(1000).pipe(
       take(Math.ceil(ms / 1000))
     ).subscribe({
       next: (sec) => this.setTimer(ms - (sec * 1000)),
@@ -32,11 +33,15 @@ export class TimerService {
     this.timer.set(`${hoursStr}:${minutesStr}:${secondsStr}`);
   }
 
-  endTimer() {
+  private endTimer() {
     timer(1000).subscribe(() => {
       this.timer.set('00:00:00');
       this.timeEnd.next();
     });
+  }
+
+  clearTimer() {
+    this.timerIntervalSubscription.unsubscribe();
   }
 
 }

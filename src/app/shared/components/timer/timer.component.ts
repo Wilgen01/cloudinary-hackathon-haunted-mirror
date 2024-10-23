@@ -23,7 +23,7 @@ export class TimerComponent implements OnChanges, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.timerService.endTimer();
+    this.timerService.clearTimer();
   }
   
   ngOnChanges(changes: SimpleChanges): void {
